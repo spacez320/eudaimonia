@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Eudaimonia</title>
+</html>
+<body>
+  <div class="header">
+  <h1>Eudaimonia.io</h1>
+  I use this space to write.
+  </div>
+  <div class="body">
+    <ul>
+      {{ range .posts }}
+      <li><a href="/{{ . }}">{{ . }}</a></li>
+      {{ end }}
+    </ul>
+  </div>
+</body>
+</html>

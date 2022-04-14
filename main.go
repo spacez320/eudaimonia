@@ -14,12 +14,12 @@ import (
 
 const (
 	POSTS_DIR     = "posts"
-	STYLE_FILE    = "style.css"
+	ASSETS_DIR    = "assets"
 	TEMPLATES_DIR = "template"
 )
 
-// Locates post files.
-// Returns a list of post file names.
+// Retrieves a list of posts.
+// Returns a list of post names.
 func listPosts() (posts []string) {
 	files, err := ioutil.ReadDir(POSTS_DIR)
 	if err != nil {
@@ -33,21 +33,21 @@ func listPosts() (posts []string) {
 	return
 }
 
-// Reads markdown post data.
+// Converts Markdown to HTML.
+// Returns HTML output.
+func markdownToHTML(markdown []byte) (html []byte) {
+	html = blackfriday.MarkdownCommon(markdown)
+
+	return
+}
+
+// Reads Markdown post data.
 // Returns the text within the post file.
 func readPost(post string) (post_data []byte) {
 	post_data, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", POSTS_DIR, post))
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	return
-}
-
-// Converts markdown to HTML.
-// Returns HTML output.
-func markdownToHTML(markdown []byte) (html []byte) {
-	html = blackfriday.MarkdownCommon(markdown)
 
 	return
 }
@@ -72,16 +72,15 @@ func getPost(context *gin.Context) {
 func main() {
 	// Set-up Gin.
 	router := gin.Default()
-	router.Use(gin.Logger())
 	router.Delims("{{", "}}")
-
-	// Set-up templates.
 	router.LoadHTMLGlob("./templates/*.tmpl.html")
-	router.StaticFile("/style.css", STYLE_FILE)
+	router.Static("/assets", ASSETS_DIR)
+	router.Use(gin.Logger())
 
 	// Register endpoints.
 	router.GET("/", getIndex)
 	router.GET("/posts/:post", getPost)
 
+	// Start the webserver.
 	router.Run()
 }

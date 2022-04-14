@@ -1,0 +1,29 @@
+a {
+  color: #d9483b;
+}
+
+a:visited {
+  color: #f2c12e;
+}
+
+body {
+  background-color: #000507;
+  color: #a0cecb;
+  font-family: monospace;
+  font-size: 1.5em;
+  margin-bottom: 5em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5em;
+  width: 50%;
+}
+
+pre {
+  margin-bottom: 3em;
+  margin-left: 1em;
+  margin-top: 3em;
+}
+
+code {
+  color: #02899e;
+}

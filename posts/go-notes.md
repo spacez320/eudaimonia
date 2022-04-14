@@ -322,7 +322,7 @@ if readCount, err = module.Format("Hello.\n"); err != nil {
 
 Go also has switch statements.
 
-```
+```go
 switch {
 case foo == "bar":
   ...

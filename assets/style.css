@@ -1,9 +1,9 @@
 a {
-  color: #d9483b;
+  color: #f2c12e;
 }
 
 a:visited {
-  color: #f2c12e;
+  color: #d9483b;
 }
 
 body {
@@ -18,10 +18,16 @@ body {
   width: 50%;
 }
 
+h1,h2 {
+  margin-top: 2em;
+}
+
 pre {
-  margin-bottom: 3em;
+  background-color: #030303;
+  margin-bottom: 2em;
   margin-left: 1em;
-  margin-top: 3em;
+  margin-top: 2em;
+  padding: 1em;
 }
 
 code {

@@ -6,27 +6,28 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/russross/blackfriday"
 )
 
 const (
-	TEMPLATES_DIR = "template"
 	POSTS_DIR     = "posts"
+	STYLE_FILE    = "style.css"
+	TEMPLATES_DIR = "template"
 )
 
 // Locates post files.
 // Returns a list of post file names.
-func listPosts(posts_dir string) (posts []string) {
-	files, err := ioutil.ReadDir(posts_dir)
+func listPosts() (posts []string) {
+	files, err := ioutil.ReadDir(POSTS_DIR)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, file := range files {
-		fmt.Println(file.Name())
-		posts = append(posts, file.Name())
+		posts = append(posts, strings.TrimSuffix(file.Name(), ".md"))
 	}
 
 	return
@@ -53,21 +54,19 @@ func markdownToHTML(markdown []byte) (html []byte) {
 
 // The index page.
 func getIndex(context *gin.Context) {
-	posts := listPosts(POSTS_DIR)
+	posts := listPosts()
+	log.Println(posts)
 
-	context.HTML(http.StatusOK, "index.tmpl.html", gin.H{
-		"posts": posts,
-	})
+	context.HTML(http.StatusOK, "index.tmpl.html", gin.H{"posts": posts})
 }
 
 // A post page.
 func getPost(context *gin.Context) {
-	post := template.HTML(
-		string(markdownToHTML(readPost(context.Param("post")))))
+	post_file := fmt.Sprintf(
+		"%s.md", strings.TrimPrefix(context.Param("post"), "/posts/"))
+	post := template.HTML(string(markdownToHTML(readPost(post_file))))
 
-	context.HTML(http.StatusOK, "post.tmpl.html", gin.H{
-		"post": post,
-	})
+	context.HTML(http.StatusOK, "post.tmpl.html", gin.H{"post": post})
 }
 
 func main() {
@@ -78,10 +77,11 @@ func main() {
 
 	// Set-up templates.
 	router.LoadHTMLGlob("./templates/*.tmpl.html")
+	router.StaticFile("/style.css", STYLE_FILE)
 
 	// Register endpoints.
 	router.GET("/", getIndex)
-	router.GET("/:post", getPost)
+	router.GET("/posts/:post", getPost)
 
 	router.Run()
 }

@@ -1,0 +1,7 @@
+name: Eudaimonia
+on: [push]
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker build --tag eudaimonia:latest .

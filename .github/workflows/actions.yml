@@ -1,7 +1,8 @@
 name: Eudaimonia
 on: [push]
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - run: docker build --tag eudaimonia:latest .

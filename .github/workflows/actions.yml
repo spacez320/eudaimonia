@@ -1,8 +1,13 @@
 name: Eudaimonia
 on: [push]
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: docker build --tag eudaimonia:latest .
+      - env:
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: |
+          docker login --password $DOCKER_HUB_TOKEN --username spacez320
+          docker build --tag spacez320/eudaimonia:latest .
+          docker push spacez320/eudaimonia:latest

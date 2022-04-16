@@ -13,6 +13,7 @@ jobs:
           docker build --tag spacez320/eudaimonia:latest .
           docker push spacez320/eudaimonia:latest
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,4 +21,10 @@ jobs:
         env:
           KUBERNETES_BEARER_TOKEN: ${{ secrets.KUBERNETES_BEARER_TOKEN }}
           KUBERNETES_SERVER: ${{ secrets.KUBERNETES_SERVER }}
-        run: kubectl --server $KUBERNETES_SERVER --token $KUBERNETES_BEARER_TOKEN apply --filename Deployment.yaml
+        run: |
+          kubectl \
+            --insecure-skip-tls-verify=true \
+            --server $KUBERNETES_SERVER \
+            --token $KUBERNETES_BEARER_TOKEN \
+            apply \
+            --filename Deployment.yaml

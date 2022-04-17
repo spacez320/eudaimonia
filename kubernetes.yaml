@@ -53,7 +53,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`traefik.localhost`)
+    - match: Host(`eudaimonia.io`)
       kind: Rule
       services:
         - name: blog

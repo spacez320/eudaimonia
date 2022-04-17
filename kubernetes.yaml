@@ -41,3 +41,20 @@ spec:
       targetPort: 8080
   selector:
     app: blog
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app: blog
+  name: blog
+  namespace: blog
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`traefik.localhost`)
+      kind: Rule
+      services:
+        - name: blog
+          port: 80

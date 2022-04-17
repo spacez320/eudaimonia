@@ -27,4 +27,4 @@ jobs:
             --server $KUBERNETES_SERVER \
             --token $KUBERNETES_BEARER_TOKEN \
             apply \
-            --filename Deployment.yaml
+            --filename kubernetes.yaml

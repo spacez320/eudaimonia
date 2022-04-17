@@ -51,10 +51,12 @@ metadata:
   namespace: blog
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`eudaimonia.io`)
       kind: Rule
       services:
         - name: blog
           port: 80
+  tls:
+    secretName: eudaimonia.io-tls

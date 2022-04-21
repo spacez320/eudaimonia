@@ -1,0 +1,30 @@
+name: Eudaimonia
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker image
+        env:
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: |
+          docker login --password $DOCKER_HUB_TOKEN --username spacez320
+          docker build --tag spacez320/eudaimonia:latest .
+          docker push spacez320/eudaimonia:latest
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to Kubernetes
+        env:
+          KUBERNETES_BEARER_TOKEN: ${{ secrets.KUBERNETES_BEARER_TOKEN }}
+          KUBERNETES_SERVER: ${{ secrets.KUBERNETES_SERVER }}
+        run: |
+          kubectl \
+            --insecure-skip-tls-verify=true \
+            --server $KUBERNETES_SERVER \
+            --token $KUBERNETES_BEARER_TOKEN \
+            apply \
+            --filename kubernetes.yaml

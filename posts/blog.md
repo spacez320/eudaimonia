@@ -27,3 +27,8 @@ This describes how this blog is constructed. Below is a description from the bot
     service.
 
 [![Diagram of blog components](/images/blog.png)](/images/blog.png)
+
+Terraform provisions everything except the blog itself, which is deployed
+directly via a Kubernetes manifest from GitHub Actions.
+
+See: <https://github.com/spacez320/eudaimonia>

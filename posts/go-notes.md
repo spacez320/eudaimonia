@@ -4,9 +4,9 @@ These are notes on the Go programming language.
 
 ## Basics
 
-- Each Go file declares a package.
 - Style is enforced by the `go fmt` tool. Go expects certain styling to
   compile.
+- Each Go file declares a package.
 - All Go programs have a main function in a main package.
 - Uppercase methods are public and exportable, lowercase methods are private.
 - Go constructs strings from **runes**, which are unicode characters. Unicode
@@ -24,10 +24,12 @@ Go source is compiled and executed from a `GOPATH`.
     go install project
 
 Go dependencies are done with Go Modules. Dependencies will be detected within
-their use in code and then automatically downloaded.
+their use in code and then automatically included (but may need to be
+downloaded).
 
     cd ./project
     go mod init project
+    go get <package>
     go mod tidy
 
 Projects with a `main` package and a `main.go` file can be directly executed.
@@ -36,8 +38,8 @@ Projects with a `main` package and a `main.go` file can be directly executed.
 
 ## Variables
 
-Go has static types with hinting. You can explicitly declare types, or you can
-have Go figure it out using `:=`.
+Go has static types with hinting. You can explicitly declare types or you can
+have Go figure it out.
 
 The following are equivalent:
 
@@ -77,7 +79,7 @@ The `_` variable can be used to throw away unneeded information.
 Go will error on unused or over-declared variables.
 
 All variables, when declared, are initialized to their "zero value," which
-depends on the type (e.g., booleans get 'False' and integers get 0).
+depends on the type (e.g., booleans get `false` and integers get `0`).
 
 ## Types
 
@@ -92,6 +94,19 @@ Type functions can also do some conversions. Each conversion creates a copy.
     back_to_string = string(my_byte_slice)
 
 Some times include:
+
+- **int** and **uint8** and **unint64** are integers.
+
+- **float32** and **float64** are floating point types.
+
+        var pi float64 = 3.1415926
+        pi = float64(3.14159)
+
+- **string** is a string.
+
+- **bool** is a boolean. `!` is negation.
+
+- Also **byte**.
 
 - **iota** can create constant enumerations and is an auto incrementing value.
 
@@ -111,17 +126,6 @@ Some times include:
 
         fmt.Printf("%d %d %d", zero, four, eight)   // Prints '0 4 8'.
 
-- **float32** and **float64** are floating point types.
-
-        var pi float64 = 3.1415926
-        pi = float64(3.14159)
-
-- **int** and **uint8** and **unint64** are integers.
-
-- **bool** is a boolean. `!` is negation.
-
-- Also **byte**.
-
 - Also **error**--the built-in Go error type.
 
 - The empty value in Go is `nil`.
@@ -135,7 +139,7 @@ Some times include:
       bar int
     }
 
-    s := &something(foo: "test")
+    s := &something{foo: "test"}
     s.bar = 3
 
 Both examples below will instantiate a struct with zero-values.
@@ -158,16 +162,16 @@ Strings can be indexed using array brackets and `:`.
     astr[0:4]
     astr[:4]
 
-Looping over a string rune by rune:
-
-    for i, r := range astr {
-      fmt.Printf("%d %c\n", i, r)
-    }
-
 The `range` keyword allows k/v iteration.
 
     for _, r := range astr {
       ...
+    }
+
+Looping over a string rune by rune:
+
+    for i, r := range astr {
+      fmt.Printf("%d %c\n", i, r)
     }
 
 Get string length with `len()`.

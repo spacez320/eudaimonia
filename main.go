@@ -15,6 +15,7 @@ import (
 const (
 	POSTS_DIR     = "posts"
 	ASSETS_DIR    = "assets"
+	IMAGES_DIR    = "images"
 	TEMPLATES_DIR = "template"
 )
 
@@ -75,6 +76,7 @@ func main() {
 	router.Delims("{{", "}}")
 	router.LoadHTMLGlob("./templates/*.tmpl.html")
 	router.Static("/assets", ASSETS_DIR)
+	router.Static("/images", IMAGES_DIR)
 	router.Use(gin.Logger())
 
 	// Register endpoints.

@@ -2,6 +2,11 @@
 
 This is just a list of projects to keep track of, mostly based on an initial impression.
 
+### AI
+
+- [CrewAI](https://github.com/joaomdmoura/crewAI) a system to coordinate
+  cooperative AI agents on a set of tasks.
+
 ## CLI
 
 - [Dasel](https://github.com/tomwright/dasel), similar to jq or yq but covers

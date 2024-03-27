@@ -15,6 +15,10 @@ This is just a list of projects to keep track of, mostly based on an initial imp
 ## Go
 
 - [Bubbletea](https://github.com/charmbracelet/bubbletea), an interesting looking TUI library.
+- [go-licenses](https://github.com/google/go-licenses) can give a summary report of all licenses
+  that are in use in a Go project.
+- [Project-layout](https://github.com/golang-standards/project-layout) is a Go standards project
+  that gives guidance on how to structure Go codebases.
 
 ## Monitoring
 

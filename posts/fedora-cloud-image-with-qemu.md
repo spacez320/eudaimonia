@@ -117,8 +117,11 @@ cloud-init set-up for aarch64/arm64, which gets us closer (perhaps close enough)
         -machine virt \
         -nographic \
         -smbios type=1,serial=ds='nocloud;seedfrom=http://10.0.2.2:8000/' \
-        -smp 1
+        -smp 2
     ```
+
+    Note that the larger resources (virtual CPU and memory) provided are necessary for the image to
+    successfully launch and present a login.
 
 3.  The console should show a system booting, some cloud-init messages, and a login prompt that
     accepts the username and password configured.

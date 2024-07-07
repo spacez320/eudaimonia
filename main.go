@@ -58,10 +58,6 @@ func getIndex(context *gin.Context) {
 	posts := listPosts()
 	log.Println(posts)
 
-	for k, v := range context.Request.Header {
-		log.Printf("%s: %s\n", k, v)
-	}
-
 	context.HTML(http.StatusOK, "index.tmpl.html", gin.H{"posts": posts})
 }
 

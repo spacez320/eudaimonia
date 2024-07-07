@@ -22,6 +22,9 @@ spec:
     spec:
       containers:
         - name: blog
+          env:
+            - name: GIN_MODE
+              value: release
           image: spacez320/eudaimonia:latest
           ports:
             - containerPort: 8080

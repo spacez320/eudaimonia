@@ -56,7 +56,6 @@ func readPost(post string) (post_data []byte) {
 // The index page.
 func getIndex(context *gin.Context) {
 	posts := listPosts()
-	log.Println(posts)
 
 	context.HTML(http.StatusOK, "index.tmpl.html", gin.H{"posts": posts})
 }

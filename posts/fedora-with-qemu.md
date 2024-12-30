@@ -1,9 +1,9 @@
-# Fedora Cloud with QEMU and cloud-init
+# Fedora with QEMU and cloud-init
 
 This covers the necessities for booting a [Fedora Cloud](https://fedoraproject.org/cloud) instance
 with [QEMU](https://www.qemu.org) (directly) and having it execute
 [cloud-init](https://cloudinit.readthedocs.io) after booting. This was done in service of a project
-to emulate Raspberry Pi intances that could automatically configure themselves to join a network or
+to emulate Raspberry Pi instances that could automatically configure themselves to join a network or
 cluster.
 
 ## Things to Know
@@ -95,6 +95,30 @@ When you're ready to stop the system, you can just stop the QEMU process.
 pkill qemu-system-x86_64
 ```
 
+## QEMU Options
+
+Here we try to break down the above QEMU command in order to more closely understand what we're
+actually executing.
+
+`-cpu` dictates the CPU model for QEMU to emulate. This can do different things depending on the
+emulation type, and in this case, `host` dictates KVM to supply a CPU which has the same
+capabilities as the host CPU.
+
+`-drive` defines a drive for the emulated instance, which simultaneously defines a block device and
+presents it as a device. In this case, we present the QCOW image itself as a drive.
+
+`-m` defines the RAM size and can define various physical characteristics of memory, such as
+expansion slots.`
+
+`-machine` defines the emulated machine. This directive can also have QEMU use other hypervisors to
+run virtual machines. `accel=kvm` enables KVM as an underlying hypervisor, known as "accelerators"
+in QEMU parlance.
+
+`-nographic` directs QEMU to display no guest graphics, and will instead direct output to the
+console.
+
+`-smbios` defines arguments for the SMBIOS.
+
 ## Steps (aarch64)
 
 The above demonstrates the basics of engaging QEMU for an x86-64 machine on an x86-64 machine and
@@ -111,7 +135,6 @@ cloud-init set-up for aarch64/arm64, which gets us closer (perhaps close enough)
     qemu-system-aarch64 \
         -bios /usr/share/edk2/aarch64/QEMU_EFI.fd \
         -cpu cortex-a57 \
-        -device virtio-net-pci \
         -drive file=Fedora-Cloud-Base-39-1.5.aarch64.qcow2 \
         -m 1G \
         -machine virt \
@@ -125,6 +148,21 @@ cloud-init set-up for aarch64/arm64, which gets us closer (perhaps close enough)
 
 3.  The console should show a system booting, some cloud-init messages, and a login prompt that
     accepts the username and password configured.
+
+## More QEMU Options
+
+Arguments for running ARM machine in QEMU look a bit different, with one big difference being the
+exclusion of KVM as a backing hypervisor.
+
+`-bios` defines the BIOS file to load into memory and use for booting. In most cases, QEMU will load
+a BIOS without being prompted, depending on the machine architecture, but in the case of ARM we
+provide one that EDK2 happens to have.
+
+`-machine virt` is described as a "general purpose platform" for running ARM based machines.
+
+`-smp` (a reference to symmetric multi-processing) helps define specific CPU characteristics,
+including cores, sockets, dies, threads, and other physical characteristics. `-smp 2` dictates the
+machine should have two cores in one socket.
 
 ## Networking
 

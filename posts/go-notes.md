@@ -4,6 +4,9 @@ These are notes on the Go programming language.
 
 ## Basics
 
+Go is a statically typed, general purpose, imperative language that is compiled, garbage collected,
+and features memory referencing, cross-compilation, and concurrency.
+
 - Style is enforced by the `go fmt` tool. Go expects certain styling to compile.
 - Each Go file declares a package.
 - All executable Go programs have a main function in a main package, otherwise they are libraries.

@@ -27,5 +27,9 @@ jobs:
             --insecure-skip-tls-verify=true \
             --server $KUBERNETES_SERVER \
             --token $KUBERNETES_BEARER_TOKEN \
-            apply \
-            --filename kubernetes.yaml
+            apply --filename kubernetes.yaml
+          kubectl \
+            --insecure-skip-tls-verify=true \
+            --server $KUBERNETES_SERVER \
+            --token $KUBERNETES_BEARER_TOKEN \
+            rollout restart deployment/blog --namespace blog
